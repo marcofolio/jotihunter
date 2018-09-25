@@ -1,0 +1,40 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+html,body { height: 100%; }
+.sl { list-style: none; margin-top:10px; }
+.sl li { display: inline; padding-right:20px; }
+
+.pad { padding-left:20px; }
+
+.vossenteam { margin:10px 0; }
+.vossenteam h2 { width:120px; text-align: center; color: #ddd; text-shadow: 2px 2px 2px #333; }
+.vossenteam input { width:100px; padding:5px; border-radius:5px; border:1px solid black; }
+.vossenteam input:disabled { background-color:#eee; }
+.vossenteam .rood { background-color:#CD2815; }
+.vossenteam .oranje { background-color:#E96D0B; }
+.vossenteam .groen { background-color:#627404; }
+
+#selectedgroup {
+	position: absolute;
+	z-index: 9999;
+	border: 1px solid;
+	padding: 5px;
+	right: 10px;
+	margin-top: 40px;
+	background-color: white;
+	box-shadow: 0 0 5px #888888;
+	border-radius: 2px;
+}
+
+.legend a { color:#eee !important; pointer-events: none; }
+.legend .alpha { background-color:red; }
+.legend .bravo { background-color:green; }
+.legend .charlie { background-color:blue; }
+.legend .delta { background-color:#40e0d0; color:#111 !important; }
+.legend .echo { background-color:purple; }
+.legend .foxtrot { background-color:yellow; color:#111 !important; }

@@ -1,0 +1,88 @@
+ <div class="jumbotron">
+	<div class="container">
+		<h1>Kies uit het volgende:</h1>
+
+		<div class="row">
+	        <div class="col-md-4">
+	          <p>Geef de huidige coördinaten door voor een bestaande auto.</p>
+	          
+	          <p><a class="btn btn-primary btn-lg" href="#" data-bind="click: enterCoordinate">Positie doorgeven</a></p>
+	        </div>
+	        <div class="col-md-4">
+	          <p>Voeg een nieuwe auto toe.</p>
+	          <p><a class="btn btn-primary btn-lg" href="#" data-bind="click: addCar">Nieuwe auto</a></p>
+		   </div>
+		   <div class="col-md-4">
+			  <p>Verwijder een auto.</p>
+			  <p><a class="btn btn-primary btn-lg" href="#" data-bind="click: removeCar">Verwijder auto</a></p>
+		   </div>
+	    </div>
+
+	</div>
+</div>
+
+<div class="container" data-bind="visible: showEnterCoordinate">
+	<h2>Geef huidige positie door</h2>
+	<p>Auto: <select data-bind="options: availableCars, optionsCaption: 'Kies een auto', optionsText: 'name', value: selectedCar"></select></p>
+	<p>Als je browser het ondersteunt, zal deze vragen of hij automatisch je positie door mag geven. Geef hier toestemming voor, zodat je het zelf niet meer hoeft in te vullen.</p>
+
+	<div data-bind="visible: selectedCar">
+
+		<p>
+			<ul class="sl">
+				<li>Invoer:</li>
+				<li>
+					<input type="radio" name="inputType" value="latLng" id="inputTypeLatLng" data-bind="checked: inputType"  />
+					<label for="inputTypeLatLng">Lat Lng</label>
+				</li>
+				<li>
+					<input type="radio" name="inputType" value="address" id="inputTypeAddress" data-bind="checked: inputType"  />
+					<label for="inputTypeAddress">Adres</label>
+				</li>
+			</ul>
+		</p>
+
+		<p data-bind="visible: showLatLng">Gebruik de voorbeeld Lat Lng om aan te geven dat je op de blokhut bent.</p>
+		<table style="margin-bottom:20px;" data-bind="visible: showLatLng">
+			<tr>
+				<td>Lat</td>
+				<td><input type="text" data-bind="value: carLat" /></td>
+				<td>(bv. <code>52.00354</code>)</td>
+			</tr>
+			<tr>
+				<td>Lng</td>
+				<td><input type="text" data-bind="value: carLng" /></td>
+				<td>(bv. <code>5.948691</code>)</td>
+			</tr>
+		</table>
+
+		<p data-bind="visible: showAddress"><strong>Let op:</strong> Dit is niet zo precies als met Lat Lng, dus alleen gebruiken wanneer Lat Lng niet mogelijk is.</p>
+		<table style="margin-bottom:20px;" data-bind="visible: showAddress">
+			<tr>
+				<td>Straat (+ evt. huisnr)</td>
+				<td><input type="text" data-bind="value: carStreet" /></td>
+			</tr>
+			<tr>
+				<td>Plaats</td>
+				<td><input type="text" data-bind="value: carCity" /></td>
+			</tr>
+		</table>
+
+		<p><a class="btn btn-default" href="#" data-bind="click: enterPosition">Positie doorgeven</a></p>
+	</div>
+
+</div>
+
+<div class="container" data-bind="visible: showAddCar">
+	<h2>Voeg auto toe</h2>
+	<p>Voeg een auto toe, door middel van de naam van de bestuurder door te geven. <strong>Zorg dat deze uniek is!</strong></p>
+	<p><input type="text" data-bind="value: carName" /></p>
+	<p><a class="btn btn-default" href="#" data-bind="click: enterCar">Auto toevoegen</a></p>
+</div>
+
+<div class="container" data-bind="visible: showRemoveCar">
+	<h2>Verwijder een auto</h2>
+	<p>Een auto niet meer onderweg? Verwijder hem.</p>
+	<p>Auto: <select data-bind="options: carsToRemove, optionsCaption: 'Kies een auto', optionsText: 'name', value: carToRemove"></select></p>
+	<p><a class="btn btn-default" href="#" data-bind="click: deleteCar">Verwijder auto</a></p>
+</div>

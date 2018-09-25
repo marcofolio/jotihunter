@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Jotihunter</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdtrR8cuJIGl3c9-iPswJa0jiBIM-Ew1A" type="text/javascript"></script>
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand" data-bind="click: showMap">Jotihunt</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="#" data-bind="click: showMap">Kaart</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Invoer <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" data-bind="click: showInput">Hint</a></li>
+					<li><a href="#" data-bind="click: showHunt">Hunt</a></li>
+                    <li><a href="#" data-bind="click: showCar">Auto</a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Legenda <b class="caret"></b></a>
+                  <ul class="dropdown-menu legend">
+                    <li><a href="#" class="alpha">Alpha</a></li>
+                    <li><a href="#" class="bravo">Bravo</a></li>
+                    <li><a href="#" class="charlie">Charlie</a></li>
+                    <li><a href="#" class="delta">Delta</a></li>
+                    <li><a href="#" class="echo">Echo</a></li>
+                    <li><a href="#" class="foxtrot">Foxtrot</a></li>
+                  </ul>
+              </li>
+              <li><a href="#" data-bind="click: showInfo">Info</a></li>
+            </ul>
+          </div><!--/.navbar-collapse -->
+        </div>
+      </div>
+
+      <div style="height:100%; width:100%;" data-bind="template: { name: currentTemplate().name(), data: currentTemplate().data() }" ></div>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+      <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+
+      <script src="js/vendor/bootstrap.min.js"></script>
+      <script src="js/vendor/linq.min.js"></script>
+      <script src="js/vendor/knockout-2.3.0.js"></script>
+      <script src="js/vendor/knockout.mapping-latest.js"></script>
+      <script src="js/vendor/koExternalTemplateEngine_all.min.js"></script>
+      <script src="js/gpsnlrd001_packed.js"></script>
+      <script src="js/vossenteam.js"></script>
+
+      <!-- ViewModels -->
+      <script src="js/vm/groepen.js"></script>
+      <script src="js/vm/map.js"></script>
+      <script src="js/vm/input.js"></script>
+      <script src="js/vm/car.js"></script>
+	    <script src="js/vm/hunt.js"></script>
+      <script src="js/vm/info.js"></script>
+      <!-- /ViewModels -->
+
+      <script src="js/index.js"></script>
+
+      <!-- Configure value by replacing this table from the one on the Jotihunt website -->
+      <table class="table table-striped" style="display: none;">
+    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Plaats</th>
+                        <th>Naam groep</th>
+                        <th>Co&ouml;rdinaat</th>
+                        <th>Regio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/73/m/logo_small.png" class="img-responsive">
+                                                            </td>
+                            <td>Afferden</td>
+                            <td>
+                                <a href="http://www.derietkampers.nl" target="_blank">De Rietkampers - Don Bosco</a><br>
+                                Koningstraat 114<br>
+                                6654 AH Afferden
+                            </td>
+                            <td>
+                                51.88207<br>
+                                5.615894
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/85/m/Logo-Scouting-JJB.png" class="img-responsive">
+                                                            </td>
+                            <td>Apeldoorn</td>
+                            <td>
+                                <a href="http://www.scoutinggroep-jjb.net/" target="_blank">Scoutinggroep JJB</a><br>
+                                Berghuizerweg 155<br>
+                                7312SN Apeldoorn
+                            </td>
+                            <td>
+                                52.196452<br>
+                                5.92279
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/213/m/SW3LBP-headerlogo.png" class="img-responsive">
+                                                            </td>
+                            <td>Apeldoorn</td>
+                            <td>
+                                <a href="http://sw3lbp.nl" target="_blank">Scoutinggroep SWIII/LBP</a><br>
+                                Jachtlaan 4-6<br>
+                                7313CP Apeldoorn
+                            </td>
+                            <td>
+                                52.2259<br>
+                                5.942595
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/89/m/christologo%20met%20groepsdas.bmp" class="img-responsive">
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="http://www.christoforus.nl" target="_blank">St. Christoforus - Lichtdraagsters</a><br>
+                                Monnikensteeg 4<br>
+                                6823 AB Arnhem
+                            </td>
+                            <td>
+                                51.996151<br>
+                                5.931662
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/145/m/Schutgraaf%20logo.gif" class="img-responsive">
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="http://schutgraaf.nl" target="_blank">Scouting Schutgraaf Arnhem</a><br>
+                                Hannesstraatje 4<br>
+                                6843NV Arnhem
+                            </td>
+                            <td>
+                                51.966116<br>
+                                5.869628
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/163/m/Logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="https://www.sbv-kastanjegroep.nl" target="_blank">SBV/Kastanjegroep en Lincolngroep</a><br>
+                                Frans Halslaan 101<br>
+                                6814 JP Arnhem
+                            </td>
+                            <td>
+                                51.992173<br>
+                                5.888924
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="http://www.scoutinglido76.nl" target="_blank">Scouting Lido '76/Voermangroep</a><br>
+                                Veerpolderstraat  128a<br>
+                                6833 BS Arnhem
+                            </td>
+                            <td>
+                                51.968781<br>
+                                5.921073
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/189/m/Screenshot_20170920-215259.png" class="img-responsive">
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="http://www.degeuzenarnhem.nl" target="_blank">De Geuzen</a><br>
+                                Diependalseweg 3<br>
+                                6813 GE Arnhem
+                            </td>
+                            <td>
+                                51.987625<br>
+                                5.8762
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="http://aerendheem.nl" target="_blank">Aerendheem</a><br>
+                                Lindestraat 26<br>
+                                6823JT Arnhem
+                            </td>
+                            <td>
+                                52.003919<br>
+                                5.94826
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/217/m/Logo%20scouting%20ADT.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Arnhem</td>
+                            <td>
+                                <a href="http://www.andredethaye.nl" target="_blank">Scouting André de Thaye</a><br>
+                                Voetiuslaan 41<br>
+                                6828 TD Arnhem
+                            </td>
+                            <td>
+                                51.981396<br>
+                                5.933792
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/63/m/Scouting%20bemmel%20logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Bemmel</td>
+                            <td>
+                                <a href="https://scoutingbemmel.nl" target="_blank">Scouting Bemmel </a><br>
+                                sportlaan 1F<br>
+                                6681CD Bemmel
+                            </td>
+                            <td>
+                                51.887226<br>
+                                5.905355
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/256/m/Scouting%20Bennekom.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Bennekom</td>
+                            <td>
+                                <a href="http://scoutingbennekom.nl" target="_blank">Scouting Bennekom</a><br>
+                                Selterskampweg 68<br>
+                                6721 AV Bennekom
+                            </td>
+                            <td>
+                                52.01002<br>
+                                5.686956
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/116/m/wpe9629bac_06.png" class="img-responsive">
+                                                            </td>
+                            <td>Breedenbroek</td>
+                            <td>
+                                <a href="http://www.scoutingsaksenheerd.nl" target="_blank">Scouting Saksenheerd</a><br>
+                                Terborgseweg 16b<br>
+                                7084AJ Breedenbroek
+                            </td>
+                            <td>
+                                51.874265<br>
+                                6.463794
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <!-- <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/305/m/images.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Breukelen</td>
+                            <td>
+                                <a href="http://ray.nl" target="_blank">Testgroep organisatie</a><br>
+                                De Corridor 27<br>
+                                3621ZA Breukelen
+                            </td>
+                            <td>
+                                52.180398<br>
+                                4.989006
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr> -->
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/72/m/11148418_1629146863997839_625549015614486664_n.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Culemborg</td>
+                            <td>
+                                <a href="http://sintstanislaus.nl/" target="_blank">Sint Stanislaus & Saffatin</a><br>
+                                Steenovenslaan 20<br>
+                                4101 AM Culemborg
+                            </td>
+                            <td>
+                                51.95994<br>
+                                5.216787
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/81/m/Triton-logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Culemborg</td>
+                            <td>
+                                <a href="http://www.tritonscouting.nl/" target="_blank">Triton Scouting Culemborg</a><br>
+                                Steenovenslaan 4<br>
+                                4101 AM Culemborg
+                            </td>
+                            <td>
+                                51.96065<br>
+                                5.217591
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/146/m/SWD.png" class="img-responsive">
+                                                            </td>
+                            <td>Deest</td>
+                            <td>
+                                <a href="http://dewoutergroep.nl" target="_blank">De Woutergroep</a><br>
+                                Kweldam 1A<br>
+                                6653CB Deest
+                            </td>
+                            <td>
+                                51.889041<br>
+                                5.660045
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/212/m/Logo%20TB%20kleur%20defintief.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Deventer</td>
+                            <td>
+                                <a href="https://www.connectitus.nl/" target="_blank">Scouting Titus Brandsma Deventer</a><br>
+                                Doornenburg 530<br>
+                                7423 BS Deventer
+                            </td>
+                            <td>
+                                52.249336<br>
+                                6.213605
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/61/m/1ekeus.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Didam</td>
+                            <td>
+                                <a href="http://www.scouting-didam.nl" target="_blank">St Willibrordgroep Didam</a><br>
+                                Julianastraat 41<br>
+                                6942BB Didam
+                            </td>
+                            <td>
+                                51.938535<br>
+                                6.132172
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/196/m/1930651_756369954499538_2663055540310558552_n.png" class="img-responsive">
+                                                            </td>
+                            <td>Dieren</td>
+                            <td>
+                                <a href="http://www.scoutingdieren.nl " target="_blank">Scouting Dieren</a><br>
+                                Kolonieweg  9<br>
+                                6952 GZ Dieren
+                            </td>
+                            <td>
+                                52.054076<br>
+                                6.077144
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/165/m/logo_isala.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Doesburg</td>
+                            <td>
+                                <a href="http://www.scoutingdoesburg.nl" target="_blank">Isala groep scouting Doesburg</a><br>
+                                Meipoortwal 1<br>
+                                6981 DD Doesburg
+                            </td>
+                            <td>
+                                52.015946<br>
+                                6.138332
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/289/m/hamaland_logo.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Doetinchem</td>
+                            <td>
+                                <a href="http://www.scoutinghamaland.nl/" target="_blank">Scouting Hamaland</a><br>
+                                Keppelseweg 249<br>
+                                7008 BB Doetinchem
+                            </td>
+                            <td>
+                                51.976342<br>
+                                6.267316
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/164/m/logo_roothaangroep_fullcolour%20copy.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Doetinchem</td>
+                            <td>
+                                <a href="http://www.roothaangroep.nl" target="_blank">Scouting Roothaangroep</a><br>
+                                Koekendaalseweg 11<br>
+                                7004GH Doetinchem
+                            </td>
+                            <td>
+                                51.949401<br>
+                                6.320997
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/66/m/logo%20scouting%20De%20Paulus%20Dreumel.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Dreumel</td>
+                            <td>
+                                <a href="https://www.facebook.com/ScoutingDreumel/" target="_blank">De Paulusgroep Dreumel</a><br>
+                                De Paulus 1<br>
+                                6621 CB Dreumel
+                            </td>
+                            <td>
+                                51.848677<br>
+                                5.432381
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/96/m/logo%20scouting%20duiven.png" class="img-responsive">
+                                                            </td>
+                            <td>Duiven</td>
+                            <td>
+                                <a href="http://scoutingduiven.nl" target="_blank">Scouting Duiven</a><br>
+                                De Nieuweling 3<br>
+                                6921JL Duiven
+                            </td>
+                            <td>
+                                51.944032<br>
+                                6.032161
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/82/m/JHG.png" class="img-responsive">
+                                                            </td>
+                            <td>Ede</td>
+                            <td>
+                                <a href="http://www.scoutingjanhilgers.nl" target="_blank">Scouting Jan Hilgers Ede</a><br>
+                                Dwarsweg 1<br>
+                                6715AT Ede
+                            </td>
+                            <td>
+                                52.041756<br>
+                                5.619844
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/131/m/logo%20lbg2010.png" class="img-responsive">
+                                                            </td>
+                            <td>Ede</td>
+                            <td>
+                                <a href="http://www.langenberggroep.nl" target="_blank">Scouting Langenberggroep</a><br>
+                                Buurtmeesterweg 27-29<br>
+                                6711 HL  Ede
+                            </td>
+                            <td>
+                                52.040354<br>
+                                5.690759
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/223/m/download%20%281%29.png" class="img-responsive">
+                                                            </td>
+                            <td>Ede</td>
+                            <td>
+                                <a href="https://tarcisius-ede.nl/" target="_blank">Tarcisius Ede</a><br>
+                                Bosrand 17a<br>
+                                6718ZN Ede
+                            </td>
+                            <td>
+                                52.051333<br>
+                                5.678424
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/224/m/werenfriduslogoKleur.tif" class="img-responsive">
+                                                            </td>
+                            <td>Elst</td>
+                            <td>
+                                <a href="http://www.scoutingelst.nl" target="_blank">St. Werenfridusgroep Scouting Elst</a><br>
+                                De Pas 4<br>
+                                6662 BK Elst
+                            </td>
+                            <td>
+                                51.906634<br>
+                                5.843407
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/67/m/alexandergroep.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Ermelo</td>
+                            <td>
+                                <a href="https://alexandergroep.nl/" target="_blank">Alexandergroep Ermelo</a><br>
+                                Watervalweg 175<br>
+                                3853 PS Ermelo
+                            </td>
+                            <td>
+                                52.286725<br>
+                                5.594555
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/174/m/irmin-taweb%20background.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Ermelo</td>
+                            <td>
+                                <a href="http://irmin-taweb.nl" target="_blank">Scouting Irmin-Taweb Ermelo</a><br>
+                                Kalkoenweg 23<br>
+                                3851 SB Ermelo
+                            </td>
+                            <td>
+                                52.315395<br>
+                                5.62013
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/166/m/20994298_1675808795786510_6315800638709090787_n.png" class="img-responsive">
+                                                            </td>
+                            <td>Gaanderen</td>
+                            <td>
+                                <a href="http://www.scoga.nl/" target="_blank">Scouting Gaanderen en Gendringen</a><br>
+                                Hamminkstraat 21<br>
+                                7011 HC Gaanderen
+                            </td>
+                            <td>
+                                51.937973<br>
+                                6.347217
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/132/m/LOGO_gvgmid.png" class="img-responsive">
+                                                            </td>
+                            <td>Geldermalsen</td>
+                            <td>
+                                <a href="http://www.scoutinggeldermalsen.nl/about/" target="_blank">Scouting Graaf van Gelre</a><br>
+                                Burgemeester Roozeveld v/d Venlaan 13a<br>
+                                4191 PL Geldermalsen
+                            </td>
+                            <td>
+                                51.877653<br>
+                                5.271142
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Gorssel</td>
+                            <td>
+                                <a href="http://www.scouting-ijsselgroep.nl" target="_blank">Scouting IJsselgroep en Scouting de Witte Wieven</a><br>
+                                Kwekerijweg 3<br>
+                                7213AX Gorssel
+                            </td>
+                            <td>
+                                52.199165<br>
+                                6.214124
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/209/m/logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Gorssel</td>
+                            <td>
+                                <a href="https://www.st-joris.nl" target="_blank">Scouting Sint Joris</a><br>
+                                Lindeboomweg 6b<br>
+                                7213 LS Gorssel
+                            </td>
+                            <td>
+                                52.187773<br>
+                                6.223994
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/118/m/577480_545277338887258_137162793_n.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Groessen</td>
+                            <td>
+                                <a href="http://scoutsgroessen.nl/" target="_blank">Scouting Groessen / Zeddam</a><br>
+                                Sint Isidorusplein 8<br>
+                                6923 BD Groessen
+                            </td>
+                            <td>
+                                51.931917<br>
+                                6.032338
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/90/m/image.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Harderwijk </td>
+                            <td>
+                                <a href="http://www.verbraakmargrietgroep.nl" target="_blank">Verbraak Margriet Groep </a><br>
+                                Strokelweg  6<br>
+                                3847LR  Harderwijk 
+                            </td>
+                            <td>
+                                52.324744<br>
+                                5.6356
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/70/m/Logo-Ragay-Redoz-RGB.png" class="img-responsive">
+                                                            </td>
+                            <td>Harderwijk </td>
+                            <td>
+                                <a href="http://www.ragayredozharderwijk.nl/" target="_blank">Scouting Ragay Redoz Harderwijk</a><br>
+                                Strokelweg 4<br>
+                                3847 LR Harderwijk 
+                            </td>
+                            <td>
+                                52.32675<br>
+                                5.637435
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/208/m/GraveBoxmeerLogo.png" class="img-responsive">
+                                                            </td>
+                            <td>Heumen</td>
+                            <td>
+                                <a href="http://www.scoutinggrave.nl" target="_blank">Scouting Mgr de la Geneste Grave & Scouting Boxmeer</a><br>
+                                Overasseltseweg 4B<br>
+                                6582 BL Heumen
+                            </td>
+                            <td>
+                                51.76459<br>
+                                5.828459
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/92/m/Dannenburcht.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Huissen</td>
+                            <td>
+                                <a href="http://www.scoutingdannenburcht.nl" target="_blank">Scouting Dannenburcht</a><br>
+                                Kloosterlaan  1a<br>
+                                6851 CA Huissen
+                            </td>
+                            <td>
+                                51.935561<br>
+                                5.941941
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/110/m/Scouting%20Sweder%20van%20Voorst.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Hummelo</td>
+                            <td>
+                                <a href="https://scoutingsweder.nl/" target="_blank">Scouting Sweder van Voorst</a><br>
+                                Torenallee  2a<br>
+                                6999DD Hummelo
+                            </td>
+                            <td>
+                                52.020796<br>
+                                6.2247
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>loenen</td>
+                            <td>
+                                <a href="http://www.scoutingloenen.nl" target="_blank">scouting valeouwe</a><br>
+                                lonapark  10<br>
+                                7371 eh loenen
+                            </td>
+                            <td>
+                                52.122281<br>
+                                6.028042
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/218/m/scouting%20lunteren.png" class="img-responsive">
+                                                            </td>
+                            <td>Lunteren</td>
+                            <td>
+                                <a href="http://www.scoutinglunteren.nl" target="_blank">Scouting Lunteren</a><br>
+                                Hessenweg 77<br>
+                                6741 JP Lunteren
+                            </td>
+                            <td>
+                                52.091668<br>
+                                5.650271
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/245/m/ovnlogo.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Maurik</td>
+                            <td>
+                                <a href="https://www.oliviervannoort.nl/" target="_blank">Olivier van Noort</a><br>
+                                Driesweg 21<br>
+                                4201 HK Maurik
+                            </td>
+                            <td>
+                                51.956383<br>
+                                5.43767
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Nijkerk</td>
+                            <td>
+                                <a href="http://scoutingnijkerk.nl" target="_blank">Scouting Nijkerk</a><br>
+                                Nautenaseweg 2<br>
+                                3861PH Nijkerk
+                            </td>
+                            <td>
+                                52.220144<br>
+                                5.467705
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/345/m/Casthor_Logo_RGB.png" class="img-responsive">
+                                                            </td>
+                            <td>nijmegen</td>
+                            <td>
+                                <a href="http://www.scoutinggroepdebevers.nl/" target="_blank">Scoutinggroep de Bevers en Scouting Malden</a><br>
+                                staddijk 105<br>
+                                6537TW nijmegen
+                            </td>
+                            <td>
+                                51.809033<br>
+                                5.789714
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/127/m/Logo%20Scouting%20Paul%20Kruger%201.png" class="img-responsive">
+                                                            </td>
+                            <td>Nijmegen</td>
+                            <td>
+                                <a href="http://www.scoutingpaulkruger.nl/" target="_blank">Scouting Paul Kruger</a><br>
+                                Sophiaweg  448<br>
+                                6523 NJ Nijmegen
+                            </td>
+                            <td>
+                                51.825699<br>
+                                5.891011
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/133/m/IMG_3686.JPG" class="img-responsive">
+                                                            </td>
+                            <td>Nijmegen</td>
+                            <td>
+                                <a href="http://www.scoutingamalgama.nl" target="_blank">Scouting Amalgama</a><br>
+                                Weteringweg  50<br>
+                                6546 JZ Nijmegen
+                            </td>
+                            <td>
+                                51.839158<br>
+                                5.7856
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Nijmegen</td>
+                            <td>
+                                <a href="http://kareldestoute.nl" target="_blank">Karel de Stoute</a><br>
+                                Weezenhof 9311<br>
+                                6536 AE Nijmegen
+                            </td>
+                            <td>
+                                51.807726<br>
+                                5.817411
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/200/m/batavieren_logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Nijmegen</td>
+                            <td>
+                                <a href="http://www.batavieren.com/" target="_blank">ZV de Batavieren</a><br>
+                                Grootstalselaan 13<br>
+                                6533 KH Nijmegen
+                            </td>
+                            <td>
+                                51.808024<br>
+                                5.849254
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/187/m/20914543_1540261952731708_4973806202132489107_n.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Nunspeet</td>
+                            <td>
+                                <a href="http://www.scoutingnunspeet.nl" target="_blank">Scouting Nunspeet</a><br>
+                                Zandeboslaan 80<br>
+                                8072PP Nunspeet
+                            </td>
+                            <td>
+                                52.376156<br>
+                                5.806693
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Putten</td>
+                            <td>
+                                <a href="http://www.scoutingkontiki.nl" target="_blank">Kon-Tiki</a><br>
+                                Garderenseweg 144b<br>
+                                3881NC Putten
+                            </td>
+                            <td>
+                                52.245382<br>
+                                5.640075
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/156/m/rp-logo.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Rheden</td>
+                            <td>
+                                <a href="http://rhedensepioniers.nl" target="_blank">Rhedense Pioniers</a><br>
+                                arnhemseweg 30<br>
+                                6991DP Rheden
+                            </td>
+                            <td>
+                                52.005948<br>
+                                6.028129
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/120/m/Logo%20scouting%20jonko.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Silvolde</td>
+                            <td>
+                                <a href="http://www.scoutingsilvolde.nl" target="_blank">Scouting Jonko</a><br>
+                                Kerkenstraat 5<br>
+                                7064BH Silvolde
+                            </td>
+                            <td>
+                                51.910251<br>
+                                6.381201
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/119/m/phoenixvogel.png" class="img-responsive">
+                                                            </td>
+                            <td>Tiel</td>
+                            <td>
+                                <a href="http://www.scoutingphoenix.nl" target="_blank">Scouting Phoenix Tiel</a><br>
+                                De Hennepe 199<br>
+                                4003 AD Tiel
+                            </td>
+                            <td>
+                                51.89977<br>
+                                5.426489
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                            </td>
+                            <td>Valburg</td>
+                            <td>
+                                <a href="http://www.scoutingvalburg.nl" target="_blank">Scouting Valburg</a><br>
+                                Reetshestraat 25<br>
+                                6675 Valburg
+                            </td>
+                            <td>
+                                51.906366<br>
+                                5.793561
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/111/m/logo%20Zwervers%20kleur.jpg" class="img-responsive">
+                                                            </td>
+                            <td>veenendaal</td>
+                            <td>
+                                <a href="http://zwervers.com" target="_blank">Scoutinggroep De Zwervers</a><br>
+                                zandheuvelweg 2a<br>
+                                3904md veenendaal
+                            </td>
+                            <td>
+                                52.015281<br>
+                                5.53616
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/71/m/11154822_1002311556447479_1050868730198177539_o.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Velp</td>
+                            <td>
+                                <a href="http://www.scoutingvelp.nl/index.php" target="_blank">Velpsche Woudloopers</a><br>
+                                Beekhuizenseweg  73A<br>
+                                6881AE Velp
+                            </td>
+                            <td>
+                                52.009176<br>
+                                5.981498
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/191/m/vector_logo_lely_kleurHQ.png" class="img-responsive">
+                                                            </td>
+                            <td>Velp</td>
+                            <td>
+                                <a href="http://www.Markesteen.com" target="_blank">De Markesteen</a><br>
+                                Bovenallee 3<br>
+                                6881 AJ Velp
+                            </td>
+                            <td>
+                                52.01611<br>
+                                5.984354
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/121/m/logo_groot_transparant.png" class="img-responsive">
+                                                            </td>
+                            <td>Voorst</td>
+                            <td>
+                                <a href="http://www.scoutingvoorst.nl" target="_blank">Hélène H. Wilkensgroep - Scouting Voorst</a><br>
+                                De Halmen 1a<br>
+                                7383 BG Voorst
+                            </td>
+                            <td>
+                                52.18205<br>
+                                6.138922
+                            </td>
+                            <td>
+                                Bravo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/202/m/LogoGroep3.png" class="img-responsive">
+                                                            </td>
+                            <td>Wehl</td>
+                            <td>
+                                <a href="https://www.graaf-ottogroep.nl" target="_blank">Scouting Graaf Ottogroep Doetinchem</a><br>
+                                Doesburgseweg 10a<br>
+                                7031JC Wehl
+                            </td>
+                            <td>
+                                51.964472<br>
+                                6.207103
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/203/m/39862ba.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Westervoort</td>
+                            <td>
+                                <a href="http://www.sint-jorisgroep.nl" target="_blank">St. Jorisgroep Westervoort</a><br>
+                                Paepestraat 27<br>
+                                6931CP Westervoort
+                            </td>
+                            <td>
+                                51.958647<br>
+                                5.963432
+                            </td>
+                            <td>
+                                Delta
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/84/m/Scouting%20Weurt%20logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Weurt</td>
+                            <td>
+                                <a href="http://scoutingweurt.nl/" target="_blank">Scouting Weurt</a><br>
+                                Kerkstraat  50<br>
+                                6551 ZZ Weurt
+                            </td>
+                            <td>
+                                51.859151<br>
+                                5.817238
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/210/m/LOGO%20Scouting%20Beuningen.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Weurt</td>
+                            <td>
+                                <a href="http://www.scoutingbeuningen.nl" target="_blank">Scouting Beuningen '76</a><br>
+                                Reekstraat  13a<br>
+                                6551 DR Weurt
+                            </td>
+                            <td>
+                                51.853594<br>
+                                5.782177
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/188/m/blokhut%20scouting%20sint%20franciscus.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Wijchen</td>
+                            <td>
+                                <a href="http://www.scoutingwijchen.nl" target="_blank">Scouting St Franciscus</a><br>
+                                Sint Jorispad  37<br>
+                                6603AM Wijchen
+                            </td>
+                            <td>
+                                51.805841<br>
+                                5.744783
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/190/m/logoscowo%20%281%29.png" class="img-responsive">
+                                                            </td>
+                            <td>Wijchen</td>
+                            <td>
+                                <a href="https://www.scoutingwoezik.nl/" target="_blank">Scouting Woezik</a><br>
+                                Oud Woeziksestraat 3<br>
+                                6604 KD Wijchen
+                            </td>
+                            <td>
+                                51.825156<br>
+                                5.71745
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/109/m/Logo%20Karmijngroep%20Winssen.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Winssen</td>
+                            <td>
+                                <a href="http://www.scoutingwinssen.nl" target="_blank">Karmijngroep Winssen</a><br>
+                                Kennedysingel 8a<br>
+                                6645 AW Winssen
+                            </td>
+                            <td>
+                                51.881424<br>
+                                5.700396
+                            </td>
+                            <td>
+                                Echo
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/107/m/sjwzlogoklein.jpg" class="img-responsive">
+                                                            </td>
+                            <td>Zeewolde</td>
+                            <td>
+                                <a href="http://www.janwandelaar.nl" target="_blank">Scouting Jan Wandelaar</a><br>
+                                Dasselaarweg 49<br>
+                                3896 LT Zeewolde
+                            </td>
+                            <td>
+                                52.306836<br>
+                                5.528576
+                            </td>
+                            <td>
+                                Alpha
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/62/m/szlogo.png" class="img-responsive">
+                                                            </td>
+                            <td>Zetten</td>
+                            <td>
+                                <a href="http://www.scoutingzetten.nl" target="_blank">Scouting Zetten</a><br>
+                                Piersonstraat 21<br>
+                                6671 CK Zetten
+                            </td>
+                            <td>
+                                51.932617<br>
+                                5.709311
+                            </td>
+                            <td>
+                                Foxtrot
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                                                    <img src="https://jotihunt.net/image/80/m/scouting_logo.png" class="img-responsive">
+                                                            </td>
+                            <td>Zevenaar</td>
+                            <td>
+                                <a href="http://www.subanharaliemersgroep.nl" target="_blank">Subanhara Liemergroep Zevenaar</a><br>
+                                Slenterweg 29<br>
+                                6900CA Zevenaar
+                            </td>
+                            <td>
+                                51.915789<br>
+                                6.066154
+                            </td>
+                            <td>
+                                Charlie
+                            </td>
+                        </tr>
+                    
+                </tbody>
+  </table>
+    </body>
+</html>

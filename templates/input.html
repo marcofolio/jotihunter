@@ -1,0 +1,54 @@
+<div class="jumbotron">
+  <div class="container">
+    <img src="img/loading.gif" data-bind="visible: isLoading" style="float:right; height:50px;" />
+    <p>Selecteer de hint waar je de coördinaten voor wilt invoeren.</p>
+    <select data-bind="options: hints, optionsCaption: 'Kies een hint', optionsText: 'titel', value: chosenHint"></select>
+  </div>
+</div>
+
+<div class="container" data-bind="visible: chosenHint">
+
+	<p><em>Coördinaten bestaan uit 10 getallen, en hebben ongeveer het volgende formaat:</em> <code>190.. - 443..</code>. Bij de invoer wordt er een <code>0</code> aan toegevoegd.</p>
+	
+	<!-- ko foreach: vossenteams -->
+
+	<div class="col-lg-6">
+		<table class="vossenteam">
+			<tr>
+				<td rowspan="2" data-bind="attr: { class: state }"><h2 data-bind="text: name"></h2></td>
+				<td class="pad">X</td>
+				<td><input type="text" data-bind="value: x" /></td>
+				<td class="pad">Lat</td>
+				<td><input type="text" data-bind="value: lat" disabled /></td>
+			</tr>
+			<tr>
+				<td class="pad">Y</td>
+				<td><input type="text" data-bind="value: y" /></td>
+				<td class="pad">Lng</td>
+				<td><input type="text" data-bind="value: lng" disabled /></td>
+			</tr>
+		</table>
+	</div>
+
+	<!-- /ko -->
+
+</div>
+
+<div class="jumbotron" data-bind="visible: chosenHint">
+  <div class="container">
+    <p>Wanneer de data is ingevoerd worden ze ook zichtbaar op de kaart. Controleer of de ingevulde data correct is.</p>
+
+    <table style="margin-bottom:20px;">
+    	<tr>
+    		<td>Tijd hint:</td>
+    		<td class="pad"><input type="text" data-bind="value: hintTime" disabled /></td>
+    	</tr>
+    	<tr>
+    		<td>Tijd oplossing:</td>
+    		<td class="pad"><input type="text" data-bind="value: solveTime" disabled /></td>
+    	</tr>
+    </table>
+
+    <p><a class="btn btn-primary btn-lg" data-bind="click: addCoordinates">Voeg coördinaten toe »</a></p>
+  </div>
+</div>

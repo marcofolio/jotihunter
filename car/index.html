@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Jotihunter - Car</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../css/main.css">
+
+        <style>
+            #current { display:none; }
+        </style>
+    </head>
+    <body>
+      	<select id="cars">
+      		<option disabled selected value>-- selecteer een auto --</option>
+      	</select>
+
+		<table id="current">
+			<tr>
+				<td>Laatste update</td>
+				<td id="curTime">--</td>
+			</tr>
+			<tr>
+				<td>Latitude</td>
+				<td id="curLat">--</td>
+			</tr>
+			<tr>
+				<td>Longitude</td>
+				<td id="curLng">--</td>
+			</tr>
+		</table>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+
+		<script>
+		$(document).ready(function() {
+
+			if (!navigator.geolocation) {
+				alert("No GPS support!");
+				return;
+			}
+
+			var PROXY_SITE_ROOT = "https://YOURDOMAIN.COM/proxy/"; // Configure value
+			var selectedCar = "";
+			var $carSelect = $("#cars");
+			var $current = $("#current");
+			var $curLat = $("#curLat");
+			var $curLng = $("#curLng");
+			var $curTime = $("#curTime");
+
+			// Retrieve cars
+			$.getJSON(PROXY_SITE_ROOT + "retrieveCars.php", function(data) {
+				$.each( data , function( i, car ) {
+					$carSelect.append('<option>' + car.name + '</option>');
+				});
+			});
+
+			$carSelect.change(function() {
+				selectedCar = $("#cars option:selected").text();
+				$current.show();
+
+				if (navigator.geolocation) {
+
+					var navigatorOptions = {
+						enableHighAccuracy: true,
+						timeout : 5000,
+						maximumAge: 0
+					};
+
+					navigator.geolocation.getCurrentPosition(updatePosition, navigatorError, navigatorOptions);
+						setInterval(function() {
+							navigator.geolocation.getCurrentPosition(updatePosition, navigatorError, navigatorOptions);
+						}, 60000); // 1 minute
+
+				} else {
+					alert("Error 1: The Geolocation service failed.");
+				}
+				
+			});
+
+			function navigatorError() {
+					alert("Error 2: The Geolocation service failed.");
+			};
+
+			function timeNow() {
+				var d = new Date(),
+					h = (d.getHours()<10?'0':'') + d.getHours(),
+					m = (d.getMinutes()<10?'0':'') + d.getMinutes(),
+					s = (d.getSeconds()<10?'0':'') + d.getSeconds();
+				return h + ':' + m + ':' + s;
+			}
+
+			function updatePosition(position) {
+				var lat = position.coords.latitude.toFixed(5);
+				var lng = position.coords.longitude.toFixed(5);
+				var time = timeNow();
+
+				$curLat.html(lat);
+				$curLng.html(lng);
+				$curTime.html(time);
+
+				// Configure value
+				$.get( "https://YOURDOMAIN.COM/api/car.php?name="+ selectedCar +"&time="+ time +"&lat="+ lat +"&lng=" + lng );
+			}
+		});
+		</script>
+
+    </body>
+</html>
