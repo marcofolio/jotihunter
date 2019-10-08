@@ -9,8 +9,8 @@ function MapViewModel() {
 	this.vossenMarkers = [];
 	this.huntMarkers = [];
 	this.routePaths = [];
-	this.displayTypes = ko.observableArray(["deelgebieden", "vossen", "route", "autos", "hunts"]);
-	this.isShowingDeelgebieden = true;
+	this.displayTypes = ko.observableArray(["deelnemers", "vossen", "route", "autos", "hunts"]);
+	this.isShowingDeelnemers = true;
 	this.isShowingVossen = true;
 	this.isShowingRoute = true;
 	this.isShowingAutos = true;
@@ -20,13 +20,13 @@ function MapViewModel() {
 		
 		var types = [
 			{
-				name : 'deelgebieden',
-				checkbool : 'isShowingDeelgebieden',
+				name : 'deelnemers',
+				checkbool : 'isShowingDeelnemers',
 				drawMethod : function() {
-					vm.drawDeelgebieden(vm.map);
+					vm.drawDeelnemers(vm.map);
 				},
 				clearMethod : function() {
-					vm.clearDeelgebieden();
+					vm.clearDeelnemers();
 				}
 			},
 			{
@@ -151,7 +151,7 @@ function MapViewModel() {
 	setTimeout(function() {
 
 		vm.map = vm.makeMap();
-		vm.drawDeelgebieden(vm.map);
+		vm.drawDeelnemers(vm.map);
 		vm.drawVossen(vm.map);
 		vm.drawRoutes(vm.map);
 		vm.drawAutos(vm.map);
@@ -161,14 +161,14 @@ function MapViewModel() {
 
 	setInterval(function() {
 
-		vm.clearDeelgebieden();
+		vm.clearDeelnemers();
 		vm.clearVossenMarkers();
 		vm.clearRoutePaths();
 		vm.clearAutoMarkers();
 		vm.clearHuntMarkers();
 
 		var allDisplayTypes = [
-			{ name: "deelgebieden", drawMethod: function() { vm.drawDeelgebieden(vm.map); } },
+			{ name: "deelnemers", drawMethod: function() { vm.drawDeelnemers(vm.map); } },
 			{ name: "vossen", drawMethod: function() { vm.drawVossen(vm.map); } },
 			{ name: "route", drawMethod: function() { vm.drawRoutes(vm.map); } }, 
 			{ name: "autos", drawMethod: function() { vm.drawAutos(vm.map); } },
@@ -182,10 +182,7 @@ function MapViewModel() {
 
 	}, REFRESH_TIME);
 
-	this.clearDeelgebieden = function() {
-		while(vm.polygonsMarkers.polygons[0]){
-			vm.polygonsMarkers.polygons.pop().setMap(null);
-		}
+	this.clearDeelnemers = function() {
 		while(vm.polygonsMarkers.markers[0]){
 			vm.polygonsMarkers.markers.pop().setMap(null);
 		}
@@ -388,7 +385,7 @@ function MapViewModel() {
 
 	this.selectedKmlEvent = {};
 
-	this.drawDeelgebieden = function (map) {
+	this.drawDeelnemers = function (map) {
 		vm.polygonsMarkers = ApplyGroepen(map);
 	}
 

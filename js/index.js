@@ -1,8 +1,9 @@
 infuser.defaults.templateUrl = "templates";
 var PROXY_JOTIHUNT_ROOT = "//YOURDOMAIN.COM/proxy/jotihunt.php?method="; // Configure value
 var PROXY_SITE_ROOT = "//YOURDOMAIN.COM/proxy/"; // Configure value
-var BASE_LOCATION_LAT = "52.003919"; // Configure value
-var BASE_LOCATION_LNG = "5.94826"; // Configure value
+var BASE_LOCATION_LAT = "52.004355"; // Configure value
+var BASE_LOCATION_LNG = "5.947895"; // Configure value
+var GOOGLE_MAPS_API_KEY = "KEY"; // Configure value - Ensure "Geocoding API" & "Maps JavaScript API" is enabled for the key
 var REFRESH_TIME = 60000;
 
 function TemplateViewModel(name, data) {

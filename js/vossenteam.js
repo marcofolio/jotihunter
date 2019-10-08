@@ -26,8 +26,8 @@ function Vossenteam(name, x, y, lat, lng, state) {
 	};
 
 	this.x.subscribe(function(newValue) {
-		if(newValue && newValue.length == 5) {
-			vm.x(newValue + "0");
+		if(newValue && newValue.length == 4) {
+			vm.x(newValue + "00");
 			return;
 		}
 
@@ -41,8 +41,8 @@ function Vossenteam(name, x, y, lat, lng, state) {
 	});
 
 	this.y.subscribe(function(newValue) {
-		if(newValue && newValue.length == 5) {
-			vm.y(newValue + "0");
+		if(newValue && newValue.length == 4) {
+			vm.y(newValue + "00");
 			return;
 		}
 

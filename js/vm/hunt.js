@@ -62,7 +62,7 @@ function HuntViewModel() {
 			alert("Straat of Stad niet ingevoerd.");
 		} else {
 
-			$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+vm.huntStreet()+"+"+vm.huntCity()+"+The+Netherlands&sensor=true", function(data) {
+			$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+vm.huntStreet()+"+"+vm.huntCity()+"+The+Netherlands&sensor=true&key="+GOOGLE_MAPS_API_KEY, function(data) {
 				var result = data.results;
 				if(result.length == 0) {
 					alert("Kan het opgegeven adres niet vinden.");
