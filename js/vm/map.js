@@ -7,9 +7,10 @@ function MapViewModel() {
 	this.autoMarkers = [];
 	this.ctaLayer;
 	this.vossenMarkers = [];
+	this.loopgebiedCircles = [];
 	this.huntMarkers = [];
 	this.routePaths = [];
-	this.displayTypes = ko.observableArray(["deelnemers", "vossen", "route", "autos", "hunts"]);
+	this.displayTypes = ko.observableArray(["deelnemers", "vossen", "loopgebied", "route", "autos", "hunts"]);
 	this.isShowingDeelnemers = true;
 	this.isShowingVossen = true;
 	this.isShowingRoute = true;
@@ -37,6 +38,16 @@ function MapViewModel() {
 				},
 				clearMethod : function() {
 					vm.clearVossenMarkers();
+				}
+			},
+			{
+				name : 'loopgebied',
+				checkbool : 'isShowingLoopgebied',
+				drawMethod : function() {
+					vm.drawLoopgebied(vm.map);
+				},
+				clearMethod : function() {
+					vm.clearLoopgebied();
 				}
 			},
 			{
@@ -153,6 +164,7 @@ function MapViewModel() {
 		vm.map = vm.makeMap();
 		vm.drawDeelnemers(vm.map);
 		vm.drawVossen(vm.map);
+		vm.drawLoopgebied(vm.map);
 		vm.drawRoutes(vm.map);
 		vm.drawAutos(vm.map);
 		vm.drawHunts(vm.map);
@@ -163,6 +175,7 @@ function MapViewModel() {
 
 		vm.clearDeelnemers();
 		vm.clearVossenMarkers();
+		vm.clearLoopgebied();
 		vm.clearRoutePaths();
 		vm.clearAutoMarkers();
 		vm.clearHuntMarkers();
@@ -170,6 +183,7 @@ function MapViewModel() {
 		var allDisplayTypes = [
 			{ name: "deelnemers", drawMethod: function() { vm.drawDeelnemers(vm.map); } },
 			{ name: "vossen", drawMethod: function() { vm.drawVossen(vm.map); } },
+			{ name: "loopgebied", drawMethod: function() { vm.drawLoopgebied(vm.map); } },
 			{ name: "route", drawMethod: function() { vm.drawRoutes(vm.map); } }, 
 			{ name: "autos", drawMethod: function() { vm.drawAutos(vm.map); } },
 			{ name: "hunts", drawMethod: function() { vm.drawHunts(vm.map); } } ];
@@ -191,6 +205,12 @@ function MapViewModel() {
 	this.clearVossenMarkers = function() {
 		while(vm.vossenMarkers[0]){
 			vm.vossenMarkers.pop().setMap(null);
+		}
+	};
+
+	this.clearLoopgebied = function() {
+		while(vm.loopgebiedCircles[0]){
+			vm.loopgebiedCircles.pop().setMap(null);
 		}
 	};
 
@@ -264,6 +284,49 @@ function MapViewModel() {
             });
 
 			vm.vossenMarkers.push(marker);
+		}
+	};
+
+	this.drawLoopgebied = function(map) {
+		$.getJSON(PROXY_SITE_ROOT + "retrieveCoordinates.php", function(data) {
+			$.each( data , function( j, hint_coordinates ) {
+
+				var vossen = JSON.parse(hint_coordinates.data);
+				var hint_date = hint_coordinates.hint_date;
+
+				for(var i = 0; i < vossen.length; i++ ) {
+					var isLastKnownLocation = j == data.length-1 ? true : false;
+					if(isLastKnownLocation) {
+						vm.drawLoopgebiedSingle(vossen[i], hint_date, map);
+					}
+				}
+			});
+		});
+	};
+
+	this.drawLoopgebiedSingle = function(vos, hint_date, map) {
+		if(vos.lat && vos.lng) {
+
+			var ms = WALKING_SPEED_KPH / 3.6;
+			var hintDate = new Date(hint_date);
+			var now = new Date();
+
+			var diff = (now - hintDate) / 1000;
+			var radius = ms * diff;
+			
+			var loopgebied = new google.maps.Circle({
+	            strokeColor: '#FF0000',
+	            strokeOpacity: 0,
+	            strokeWeight: 0,
+	            fillColor: '#FF0000',
+	            fillOpacity: 0.35,
+	            map: map,
+	            center: new google.maps.LatLng(vos.lat, vos.lng),
+	            radius: radius
+	          });
+
+			vm.loopgebiedCircles.push(loopgebied);
+
 		}
 	};
 

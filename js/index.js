@@ -5,6 +5,7 @@ var BASE_LOCATION_LAT = "52.004355"; // Configure value
 var BASE_LOCATION_LNG = "5.947895"; // Configure value
 var GOOGLE_MAPS_API_KEY = "KEY"; // Configure value - Ensure "Geocoding API" & "Maps JavaScript API" is enabled for the key
 var REFRESH_TIME = 60000;
+var WALKING_SPEED_KPH = 5;
 
 function TemplateViewModel(name, data) {
 	this.name = ko.observable(name);
