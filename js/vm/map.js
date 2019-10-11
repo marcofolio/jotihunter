@@ -424,7 +424,8 @@ function MapViewModel() {
 	        var myOptions = {
 	            zoom: 9,
 	            center: new google.maps.LatLng(52.0426606750, 5.8736160278),
-	            mapTypeId: google.maps.MapTypeId.ROADMAP
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				scaleControl: true
 	        };	        
 
 	        map = new google.maps.Map(document.getElementById('groepenmap'), myOptions);
