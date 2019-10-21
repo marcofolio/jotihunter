@@ -313,19 +313,22 @@ function MapViewModel() {
 
 			var diff = (now - hintDate) / 1000;
 			var radius = ms * diff;
-			
-			var loopgebied = new google.maps.Circle({
-	            strokeColor: '#FF0000',
-	            strokeOpacity: 0,
-	            strokeWeight: 0,
-	            fillColor: '#FF0000',
-	            fillOpacity: 0.35,
-	            map: map,
-	            center: new google.maps.LatLng(vos.lat, vos.lng),
-	            radius: radius
-	          });
 
-			vm.loopgebiedCircles.push(loopgebied);
+			if(radius < 15000) // Only draw the Loopgebied when it's smaller than 15km
+			{
+				var loopgebied = new google.maps.Circle({
+					strokeColor: '#FF0000',
+					strokeOpacity: 0,
+					strokeWeight: 0,
+					fillColor: '#FF0000',
+					fillOpacity: 0.35,
+					map: map,
+					center: new google.maps.LatLng(vos.lat, vos.lng),
+					radius: radius
+				});
+
+				vm.loopgebiedCircles.push(loopgebied);
+			}
 
 		}
 	};
