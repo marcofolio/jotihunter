@@ -5,11 +5,11 @@ function ApplyGroepen(map) {
 
     var markers = [];
     $('tbody tr').each(function(){
-    	var coordinates = $("td:eq(3)", this).html();
+    	var coordinates = $("td:eq(4)", this).html();
     	var latlng = coordinates.split("<br>");
     	var icon = "https://maps.google.com/mapfiles/kml/paddle/wht-circle-lv.png";
 
-    	var $blokhut = $("td:eq(2)", this);
+    	var $blokhut = $("td:eq(3)", this);
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(latlng[0],latlng[1]),
             map: map,
